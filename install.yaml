@@ -1,0 +1,6 @@
+---
+- name: Tests kibana role
+  hosts: all
+  become: true
+  roles:
+    - tool-role/kibana

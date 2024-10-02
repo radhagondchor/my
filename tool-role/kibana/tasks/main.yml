@@ -1,0 +1,40 @@
+---
+# tasks file for Kibana
+- name: Update system
+  apt:
+    update_cache: yes
+    upgrade: yes
+  become: true    
+
+- name: Install Kibana on Debian
+  apt:
+    name: kibana
+    state: present
+    update_cache: yes
+  become: true    
+  when: ansible_os_family == "Debian"
+
+- name: Install Kibana on RedHat
+  yum:
+    name: "kibana-{{ kibana_version }}"
+    state: present
+  when: ansible_os_family == "RedHat"
+
+    #- name: Install Logstash on Debian
+  #  apt:
+    #name: "logstash={{ logstash_version }}"
+      #state: present
+      #    update_cache: yes
+      #when: ansible_os_family == "Debian"
+
+    #- name: Install Logstash on RedHat
+  #yum:
+    #name: "logstash-{{ logstash_version }}"
+      #state: present
+      #when: ansible_os_family == "RedHat"
+
+- name: Configure Kibana
+  template:
+    src: kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+  notify: Restart Kibana

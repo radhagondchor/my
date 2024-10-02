@@ -1,0 +1,1 @@
+server1 ansible_host=54.197.143.135 ansible_user=ubuntu ansible_ssh_private_key_file=/home/naresh/test.pem

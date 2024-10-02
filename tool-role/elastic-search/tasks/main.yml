@@ -1,0 +1,76 @@
+---
+# tasks file for elasticsearch
+- name: Install Java on Red Hat (CentOS)
+  yum:
+    name: "{{ java_package_redhat }}"
+    state: present
+    update_cache: yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+- name: Install Java on Ubuntu
+  apt:
+    name: "{{ java_package_ubuntu }}"
+    state: present
+    update_cache: yes
+  when: ansible_distribution == 'Ubuntu'
+  become: true
+
+- name: Add Elasticsearch GPG key
+  apt_key:
+    url: "https://packages.elastic.co/GPG-KEY-elasticsearch"
+    state: present
+  when: ansible_os_family == 'Debian'
+  become: true
+
+- name: Install prerequisites
+  apt:
+    name: "apt-transport-https"
+    state: present
+  when: ansible_os_family == 'Debian'
+  become: true
+
+- name: Add Elasticsearch repository
+  apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/{{ elasticsearch_version }}/apt stable main"
+    state: present
+  when: ansible_os_family == 'Debian'
+  become: true
+
+- name: Add Elasticsearch repository for CentOS
+  yum_repository:
+    name: elasticsearch
+    description: Elasticsearch repository for CentOS
+    baseurl: "https://artifacts.elastic.co/packages/{{ elasticsearch_version }}/yum"
+    gpgkey: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+    enabled: yes
+    state: present
+  when: ansible_os_family == 'RedHat' or ansible_distribution == 'CentOS'
+  become: true
+
+- name: Install Elasticsearch for Debian
+  apt:
+    name: elasticsearch
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+  become: true
+
+- name: Install Elasticsearch for RedHat or CentOS
+  yum:
+    name: elasticsearch
+    state: present
+  when: ansible_os_family == 'RedHat' or ansible_distribution == 'CentOS'
+  become: true
+
+- name: Enable and start Elasticsearch service
+  service:
+    name: elasticsearch
+    enabled: yes
+    state: started
+  become: true
+
+- name: Configure network settings
+  template:
+    src: elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+  notify: Restart Elasticsearch

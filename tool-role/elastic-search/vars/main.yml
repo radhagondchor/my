@@ -1,0 +1,8 @@
+---
+elasticsearch_version: "8.x"
+java_package_redhat: "java-11-openjdk"
+java_package_ubuntu: "openjdk-11-jdk"
+cluster_name: "my-application"
+network_host: "0.0.0.0"
+http_port: "9200"
+cluster_initial_master_nodes: "172-31-24-249"

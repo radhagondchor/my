@@ -1,0 +1,13 @@
+---
+plugin: aws_ec2
+
+regions:
+   - ap-south-1
+
+filters:
+  tag:Name:
+    - "kibana1"
+    - "kibana2"
+
+compose:
+    ansible_host: private_ip_address
