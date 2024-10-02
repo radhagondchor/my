@@ -227,6 +227,7 @@ resource "aws_instance" "public_instance_2" {
 resource "aws_instance" "private_instance_1" {
   ami                    = "ami-085f9c64a9b75eed5"
   instance_type          = "t2.micro"
+  key_name               = "tool"
   subnet_id              = aws_subnet.elastic_priv_subnet_1.id
   vpc_security_group_ids = [aws_security_group.elastic_sg.id]
 
@@ -238,6 +239,7 @@ resource "aws_instance" "private_instance_1" {
 resource "aws_instance" "private_instance_2" {
   ami                    = "ami-085f9c64a9b75eed5"
   instance_type          = "t2.micro"
+  key_name               = "tool"
   subnet_id              = aws_subnet.elastic_priv_subnet_2.id
   vpc_security_group_ids = [aws_security_group.elastic_sg.id]
 
