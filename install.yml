@@ -1,6 +1,5 @@
----
-- name: Tests kibana role
-  hosts: aws_ec2
+--- 
+- hosts: aws_ec2 
   become: true
   roles:
     - tool-role/elastic-search
