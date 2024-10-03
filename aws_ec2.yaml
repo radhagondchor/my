@@ -7,11 +7,8 @@ filters:
     - "private-instance-01"
     - "private-instance-02"
 compose:
-  # ansible_host: public_ip_address  # For public instances
-   ansible_host: private_ip_address  # Uncomment if using private instances
-# Optional: Use strict mode to enforce only these hosts
+   ansible_host: private_ip_address  # Use private IPs for private instances
 strict: False
-# Optional: cache the inventory for better performance
 cache: True
-cache_timeout: 600  # seconds
+cache_timeout: 600  # Cache inventory for better performance
 ansible_ssh_common_args: '-o ConnectTimeout=60'
